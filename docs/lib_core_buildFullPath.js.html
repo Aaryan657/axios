@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: lib/core/buildFullPath.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: lib/core/buildFullPath.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+import isAbsoluteURL from '../helpers/isAbsoluteURL.js';
+import combineURLs from '../helpers/combineURLs.js';
+
+/**
+ * Creates a new URL by combining the baseURL with the requestedURL,
+ * only when the requestedURL is not already an absolute URL.
+ * If the requestURL is absolute, this function returns the requestedURL untouched.
+ *
+ * @param {string} baseURL The base URL
+ * @param {string} requestedURL Absolute or relative URL to combine
+ *
+ * @returns {string} The combined full path
+ */
+export default function buildFullPath(baseURL, requestedURL, allowAbsoluteUrls) {
+  let isRelativeUrl = !isAbsoluteURL(requestedURL);
+  if (baseURL &amp;&amp; isRelativeUrl || allowAbsoluteUrls == false) {
+    return combineURLs(baseURL, requestedURL);
+  }
+  return requestedURL;
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Axios.html">Axios</a></li><li><a href="Axios$1.html">Axios$1</a></li><li><a href="CancelToken.html">CancelToken</a></li><li><a href="CancelToken$1.html">CancelToken$1</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AxiosError">AxiosError</a></li><li><a href="global.html#AxiosError$1">AxiosError$1</a></li><li><a href="global.html#AxiosURLSearchParams">AxiosURLSearchParams</a></li><li><a href="global.html#CanceledError">CanceledError</a></li><li><a href="global.html#CanceledError$1">CanceledError$1</a></li><li><a href="global.html#arrayToObject">arrayToObject</a></li><li><a href="global.html#assertOptions">assertOptions</a></li><li><a href="global.html#buildFullPath">buildFullPath</a></li><li><a href="global.html#buildURL">buildURL</a></li><li><a href="global.html#combineURLs">combineURLs</a></li><li><a href="global.html#createInstance">createInstance</a></li><li><a href="global.html#dispatchBeforeRedirect">dispatchBeforeRedirect</a></li><li><a href="global.html#dispatchRequest">dispatchRequest</a></li><li><a href="global.html#encode">encode</a></li><li><a href="global.html#encode$1">encode$1</a></li><li><a href="global.html#endsWith">endsWith</a></li><li><a href="global.html#extend">extend</a></li><li><a href="global.html#forEach">forEach</a></li><li><a href="global.html#forEachEntry">forEachEntry</a></li><li><a href="global.html#formDataToJSON">formDataToJSON</a></li><li><a href="global.html#freezeMethods">freezeMethods</a></li><li><a href="global.html#hasStandardBrowserEnv">hasStandardBrowserEnv</a></li><li><a href="global.html#hasStandardBrowserWebWorkerEnv">hasStandardBrowserWebWorkerEnv</a></li><li><a href="global.html#inherits">inherits</a></li><li><a href="global.html#isAbsoluteURL">isAbsoluteURL</a></li><li><a href="global.html#isArrayBuffer">isArrayBuffer</a></li><li><a href="global.html#isArrayBufferView">isArrayBufferView</a></li><li><a href="global.html#isAxiosError$1">isAxiosError$1</a></li><li><a href="global.html#isBlob">isBlob</a></li><li><a href="global.html#isBoolean">isBoolean</a></li><li><a href="global.html#isBuffer">isBuffer</a></li><li><a href="global.html#isDate">isDate</a></li><li><a href="global.html#isFile">isFile</a></li><li><a href="global.html#isFileList">isFileList</a></li><li><a href="global.html#isFlatArray">isFlatArray</a></li><li><a href="global.html#isFormData">isFormData</a></li><li><a href="global.html#isFunction">isFunction</a></li><li><a href="global.html#isNumber">isNumber</a></li><li><a href="global.html#isObject">isObject</a></li><li><a href="global.html#isPlainObject">isPlainObject</a></li><li><a href="global.html#isRegExp">isRegExp</a></li><li><a href="global.html#isSpecCompliantForm">isSpecCompliantForm</a></li><li><a href="global.html#isStream">isStream</a></li><li><a href="global.html#isString">isString</a></li><li><a href="global.html#isTypedArray">isTypedArray</a></li><li><a href="global.html#isURLSearchParams">isURLSearchParams</a></li><li><a href="global.html#isUndefined">isUndefined</a></li><li><a href="global.html#isVisitable">isVisitable</a></li><li><a href="global.html#matchAll">matchAll</a></li><li><a href="global.html#merge">merge</a></li><li><a href="global.html#mergeConfig$1">mergeConfig$1</a></li><li><a href="global.html#parseHeaders">parseHeaders</a></li><li><a href="global.html#parsePropPath">parsePropPath</a></li><li><a href="global.html#removeBrackets">removeBrackets</a></li><li><a href="global.html#renderKey">renderKey</a></li><li><a href="global.html#setProxy">setProxy</a></li><li><a href="global.html#settle">settle</a></li><li><a href="global.html#speedometer">speedometer</a></li><li><a href="global.html#spread$1">spread$1</a></li><li><a href="global.html#stringifySafely">stringifySafely</a></li><li><a href="global.html#stripBOM">stripBOM</a></li><li><a href="global.html#throttle">throttle</a></li><li><a href="global.html#throwIfCancellationRequested">throwIfCancellationRequested</a></li><li><a href="global.html#toArray">toArray</a></li><li><a href="global.html#toFlatObject">toFlatObject</a></li><li><a href="global.html#toFormData">toFormData</a></li><li><a href="global.html#toFormData$1">toFormData$1</a></li><li><a href="global.html#transformData">transformData</a></li><li><a href="global.html#trim">trim</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Mon Mar 10 2025 12:14:09 GMT+0530 (India Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

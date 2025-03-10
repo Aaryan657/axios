@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: lib/core/mergeConfig.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: lib/core/mergeConfig.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+import utils from '../utils.js';
+import AxiosHeaders from "./AxiosHeaders.js";
+
+const headersToObject = (thing) => thing instanceof AxiosHeaders ? { ...thing } : thing;
+
+/**
+ * Config-specific merge-function which creates a new config-object
+ * by merging two configuration objects together.
+ *
+ * @param {Object} config1
+ * @param {Object} config2
+ *
+ * @returns {Object} New object resulting from merging config2 to config1
+ */
+export default function mergeConfig(config1, config2) {
+  // eslint-disable-next-line no-param-reassign
+  config2 = config2 || {};
+  const config = {};
+
+  function getMergedValue(target, source, prop, caseless) {
+    if (utils.isPlainObject(target) &amp;&amp; utils.isPlainObject(source)) {
+      return utils.merge.call({caseless}, target, source);
+    } else if (utils.isPlainObject(source)) {
+      return utils.merge({}, source);
+    } else if (utils.isArray(source)) {
+      return source.slice();
+    }
+    return source;
+  }
+
+  // eslint-disable-next-line consistent-return
+  function mergeDeepProperties(a, b, prop , caseless) {
+    if (!utils.isUndefined(b)) {
+      return getMergedValue(a, b, prop , caseless);
+    } else if (!utils.isUndefined(a)) {
+      return getMergedValue(undefined, a, prop , caseless);
+    }
+  }
+
+  // eslint-disable-next-line consistent-return
+  function valueFromConfig2(a, b) {
+    if (!utils.isUndefined(b)) {
+      return getMergedValue(undefined, b);
+    }
+  }
+
+  // eslint-disable-next-line consistent-return
+  function defaultToConfig2(a, b) {
+    if (!utils.isUndefined(b)) {
+      return getMergedValue(undefined, b);
+    } else if (!utils.isUndefined(a)) {
+      return getMergedValue(undefined, a);
+    }
+  }
+
+  // eslint-disable-next-line consistent-return
+  function mergeDirectKeys(a, b, prop) {
+    if (prop in config2) {
+      return getMergedValue(a, b);
+    } else if (prop in config1) {
+      return getMergedValue(undefined, a);
+    }
+  }
+
+  const mergeMap = {
+    url: valueFromConfig2,
+    method: valueFromConfig2,
+    data: valueFromConfig2,
+    baseURL: defaultToConfig2,
+    transformRequest: defaultToConfig2,
+    transformResponse: defaultToConfig2,
+    paramsSerializer: defaultToConfig2,
+    timeout: defaultToConfig2,
+    timeoutMessage: defaultToConfig2,
+    withCredentials: defaultToConfig2,
+    withXSRFToken: defaultToConfig2,
+    adapter: defaultToConfig2,
+    responseType: defaultToConfig2,
+    xsrfCookieName: defaultToConfig2,
+    xsrfHeaderName: defaultToConfig2,
+    onUploadProgress: defaultToConfig2,
+    onDownloadProgress: defaultToConfig2,
+    decompress: defaultToConfig2,
+    maxContentLength: defaultToConfig2,
+    maxBodyLength: defaultToConfig2,
+    beforeRedirect: defaultToConfig2,
+    transport: defaultToConfig2,
+    httpAgent: defaultToConfig2,
+    httpsAgent: defaultToConfig2,
+    cancelToken: defaultToConfig2,
+    socketPath: defaultToConfig2,
+    responseEncoding: defaultToConfig2,
+    validateStatus: mergeDirectKeys,
+    headers: (a, b , prop) => mergeDeepProperties(headersToObject(a), headersToObject(b),prop, true)
+  };
+
+  utils.forEach(Object.keys(Object.assign({}, config1, config2)), function computeConfigValue(prop) {
+    const merge = mergeMap[prop] || mergeDeepProperties;
+    const configValue = merge(config1[prop], config2[prop], prop);
+    (utils.isUndefined(configValue) &amp;&amp; merge !== mergeDirectKeys) || (config[prop] = configValue);
+  });
+
+  return config;
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Axios.html">Axios</a></li><li><a href="Axios$1.html">Axios$1</a></li><li><a href="CancelToken.html">CancelToken</a></li><li><a href="CancelToken$1.html">CancelToken$1</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AxiosError">AxiosError</a></li><li><a href="global.html#AxiosError$1">AxiosError$1</a></li><li><a href="global.html#AxiosURLSearchParams">AxiosURLSearchParams</a></li><li><a href="global.html#CanceledError">CanceledError</a></li><li><a href="global.html#CanceledError$1">CanceledError$1</a></li><li><a href="global.html#arrayToObject">arrayToObject</a></li><li><a href="global.html#assertOptions">assertOptions</a></li><li><a href="global.html#buildFullPath">buildFullPath</a></li><li><a href="global.html#buildURL">buildURL</a></li><li><a href="global.html#combineURLs">combineURLs</a></li><li><a href="global.html#createInstance">createInstance</a></li><li><a href="global.html#dispatchBeforeRedirect">dispatchBeforeRedirect</a></li><li><a href="global.html#dispatchRequest">dispatchRequest</a></li><li><a href="global.html#encode">encode</a></li><li><a href="global.html#encode$1">encode$1</a></li><li><a href="global.html#endsWith">endsWith</a></li><li><a href="global.html#extend">extend</a></li><li><a href="global.html#forEach">forEach</a></li><li><a href="global.html#forEachEntry">forEachEntry</a></li><li><a href="global.html#formDataToJSON">formDataToJSON</a></li><li><a href="global.html#freezeMethods">freezeMethods</a></li><li><a href="global.html#hasStandardBrowserEnv">hasStandardBrowserEnv</a></li><li><a href="global.html#hasStandardBrowserWebWorkerEnv">hasStandardBrowserWebWorkerEnv</a></li><li><a href="global.html#inherits">inherits</a></li><li><a href="global.html#isAbsoluteURL">isAbsoluteURL</a></li><li><a href="global.html#isArrayBuffer">isArrayBuffer</a></li><li><a href="global.html#isArrayBufferView">isArrayBufferView</a></li><li><a href="global.html#isAxiosError$1">isAxiosError$1</a></li><li><a href="global.html#isBlob">isBlob</a></li><li><a href="global.html#isBoolean">isBoolean</a></li><li><a href="global.html#isBuffer">isBuffer</a></li><li><a href="global.html#isDate">isDate</a></li><li><a href="global.html#isFile">isFile</a></li><li><a href="global.html#isFileList">isFileList</a></li><li><a href="global.html#isFlatArray">isFlatArray</a></li><li><a href="global.html#isFormData">isFormData</a></li><li><a href="global.html#isFunction">isFunction</a></li><li><a href="global.html#isNumber">isNumber</a></li><li><a href="global.html#isObject">isObject</a></li><li><a href="global.html#isPlainObject">isPlainObject</a></li><li><a href="global.html#isRegExp">isRegExp</a></li><li><a href="global.html#isSpecCompliantForm">isSpecCompliantForm</a></li><li><a href="global.html#isStream">isStream</a></li><li><a href="global.html#isString">isString</a></li><li><a href="global.html#isTypedArray">isTypedArray</a></li><li><a href="global.html#isURLSearchParams">isURLSearchParams</a></li><li><a href="global.html#isUndefined">isUndefined</a></li><li><a href="global.html#isVisitable">isVisitable</a></li><li><a href="global.html#matchAll">matchAll</a></li><li><a href="global.html#merge">merge</a></li><li><a href="global.html#mergeConfig$1">mergeConfig$1</a></li><li><a href="global.html#parseHeaders">parseHeaders</a></li><li><a href="global.html#parsePropPath">parsePropPath</a></li><li><a href="global.html#removeBrackets">removeBrackets</a></li><li><a href="global.html#renderKey">renderKey</a></li><li><a href="global.html#setProxy">setProxy</a></li><li><a href="global.html#settle">settle</a></li><li><a href="global.html#speedometer">speedometer</a></li><li><a href="global.html#spread$1">spread$1</a></li><li><a href="global.html#stringifySafely">stringifySafely</a></li><li><a href="global.html#stripBOM">stripBOM</a></li><li><a href="global.html#throttle">throttle</a></li><li><a href="global.html#throwIfCancellationRequested">throwIfCancellationRequested</a></li><li><a href="global.html#toArray">toArray</a></li><li><a href="global.html#toFlatObject">toFlatObject</a></li><li><a href="global.html#toFormData">toFormData</a></li><li><a href="global.html#toFormData$1">toFormData$1</a></li><li><a href="global.html#transformData">transformData</a></li><li><a href="global.html#trim">trim</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Mon Mar 10 2025 12:14:09 GMT+0530 (India Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
